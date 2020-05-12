@@ -12,12 +12,15 @@ import { ListaCompras } from "../compras/ListaCompras";
 import { ListaPedidos } from "../pedidos/ListaPedidos";
 
 import MiCuenta from "../account/MiCuenta";
-import Mapa from "../map/Mapa";
+import { Mapa } from '../map/Mapa';
+import { Ruta } from '../map/Ruta';
 import Cargando from "../../components/Cargando";
 import { cargarConfiguracion } from "../../utils/FireBase";
 
 const StackAuthentication = createStackNavigator();
 const StackLogin = createStackNavigator();
+const StackDirection = createStackNavigator();
+const StackFromTabs = createStackNavigator();
 const TabHome = createBottomTabNavigator();
 
 if (!global.firebaseRegistrado) {
@@ -43,10 +46,12 @@ function AuthenticationStack() {
       <StackAuthentication.Navigator>
         {login ? (
           <StackAuthentication.Screen
-            name="HomeTab"
-            component={HomeTab}
+            name="HomeTabScreen"
+            component={ScreensFromTabs}
             options={navOptionHandler(false)}
-          ></StackAuthentication.Screen>
+          >
+
+          </StackAuthentication.Screen>
         ) : (
           <StackAuthentication.Screen
             name="LoginStack"
@@ -57,6 +62,27 @@ function AuthenticationStack() {
       </StackAuthentication.Navigator>
     );
   }
+}
+function ScreensFromTabs() {
+  return (
+     <StackFromTabs.Navigator initialRouteName="HomeTab">
+        <StackFromTabs.Screen
+           name="HomeTab"
+           component={HomeTab}
+           options={navOptionHandler(false)}
+        ></StackFromTabs.Screen>
+  <StackDirection.Screen
+           name="Mapa"
+            component={Mapa}
+            />
+            <StackDirection.Screen
+           name="Ruta"
+            component={Ruta}
+            />
+
+        
+     </StackFromTabs.Navigator>
+  );
 }
 
 function HomeTab() {
@@ -93,6 +119,20 @@ function LoginStack() {
   );
 }
 
+function DirectionStack() {
+   return (
+      <StackDirection.Navigator>
+         <StackDirection.Screen
+            name="Mapa"
+            component={Mapa}
+         ></StackDirection.Screen>
+         <StackDirection.Screen
+            name="HomeTab"
+            component={HomeTab}
+         ></StackDirection.Screen>
+      </StackDirection.Navigator>
+   );
+}
 export default function NavegadorInicio() {
   return (
     <NavigationContainer>
