@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
+import * as firebase from 'firebase';
 
 export class ListaPedidos extends Component {
   render() {
@@ -10,7 +11,7 @@ export class ListaPedidos extends Component {
         <Button title='PEDIDOS MAÑANA'
                onPress={() => {
                 navigation.navigate('Mapa', {
-                  origen: 'tarde',
+                  origen: 'M',
                });
                }}
         ></Button>
@@ -18,10 +19,17 @@ export class ListaPedidos extends Component {
         title='PEDIDOS TARDE'
         onPress={() => {
           navigation.navigate('Mapa', {
-            origen: 'tarde',
+            origen: 'T',
          });
         }}
         ></Button>
+        <Button
+               title="Cerrar Sesión"
+               onPress={() => {
+                  firebase.auth().signOut();
+                  console.log('Se cerro sesion');
+               }}
+            ></Button>
       </View>
     );
   }

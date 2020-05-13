@@ -36,12 +36,18 @@ function AuthenticationStack() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       !user ? setLogin(false) : setLogin(true);
+      if (user) {
+        global.usuario = user.email;
+        global.infoUsuario = user.providerData[0];
+        console.log(global.infoUsuario);
+     }
     });
   }, [login]);
 
   if (login === null) {
     return <Cargando isVisible={true} text="Cargando ..."></Cargando>;
   } else {
+    
     return (
       <StackAuthentication.Navigator>
         {login ? (

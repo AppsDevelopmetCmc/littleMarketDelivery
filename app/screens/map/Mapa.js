@@ -1,11 +1,9 @@
 import React, { Component, useState } from 'react';
 import { View, StyleSheet, Dimensions, Alert, Text } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { Button, ThemeConsumer } from 'react-native-elements';
-//import { ServicioCobertura } from '../../servicios/ServicioCobertura';
 import Geocoder from 'react-native-geocoding';
 import { apiKeyMaps } from '../../utils/ApiKey';
-//import { ServicioParametros } from '../../servicios/ServicioParametros';
+import { recuperarPedidosAsociado } from '../../services/Pedidos';
 
 let { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -22,31 +20,19 @@ export class Mapa extends Component {
       this.origen = this.props.route.params.origen;
       this.direccion = this.props.route.params.direccion;
       this.pintarElemento = true;
-      this.tieneCoberturaDireccion = 'N';
-      if (this.origen == 'mañana') {
+      if (this.origen == 'M') {
          this.pintarElemento = true;
       }
       this.state = {
          isMapReady: false,
          direccion: '',
-         markers: [{
-            title: 'prueba 1',
-            coordinates: {
-              latitude: -0.1900854572530225,
-              longitude: -78.490852676332
-            },
-            referencia:'casa azul'  
-          },
-          {
-            title: 'hello',
-            coordinates: {
-              latitude: -0.20860163976232973,
-              longitude: -78.48577693104744
-            },
-            referencia:'casa esquinera'  
-          }]
+         markers: []
       };
+      recuperarPedidosAsociado("pedidos", this.state.markers, this.pintarLista, this.origen);
    }
+   pintarLista = (arregloProd) => {
+      this.setState({ markers: arregloProd });
+    };
 
    obtenerCoordenadas = async () => {
       
@@ -207,7 +193,7 @@ export class Mapa extends Component {
                   ref = {ref => {this.maker = ref;}}
                     key={index}
                     coordinate={marker.coordinates}
-                    title={marker.title}
+                    title={marker.direccion}
                     onPress={() => { this.onMarkerPress(index) }}
                   />
                 ))}
