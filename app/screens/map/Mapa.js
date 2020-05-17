@@ -9,7 +9,7 @@ let { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE = -0.223219;
 const LONGITUDE =  -78.5048;
-const LATITUDE_DELTA = 0.1522;
+const LATITUDE_DELTA = 0.024;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export class Mapa extends Component {
@@ -17,10 +17,10 @@ export class Mapa extends Component {
       super(props);
       //cuando vengo por actualizar direccion obtengo los datos de la
       //direccion seleccionada
-      this.origen = this.props.route.params.origen;
+      this.jornada = this.props.route.params.jornada;
       this.direccion = this.props.route.params.direccion;
       this.pintarElemento = true;
-      if (this.origen == 'M') {
+      if (this.jornada == 'M') {
          this.pintarElemento = true;
       }
       this.state = {
@@ -28,7 +28,7 @@ export class Mapa extends Component {
          direccion: '',
          markers: []
       };
-      recuperarPedidosAsociado("pedidos", this.state.markers, this.pintarLista, this.origen);
+      recuperarPedidosAsociado("pedidos", this.state.markers, this.pintarLista, this.jornada);
    }
    pintarLista = (arregloProd) => {
       this.setState({ markers: arregloProd });
@@ -55,17 +55,6 @@ export class Mapa extends Component {
       this.obtenerCoordenadas();
    }
 
-   obtenerDireccion = async (latitude, longitude) => {
-      let addressComponent = '';
-      Geocoder.from(latitude, longitude)
-         .then(json => {
-            addressComponent = json.results[0].formatted_address;
-           // console.log(addressComponent);
-            this.setState({ direccion: addressComponent });
-         })
-         .catch(error => console.warn(error));
-   };
-
    onMapLayout = () => {
       this.setState({ isMapReady: true });
    };
@@ -89,7 +78,6 @@ export class Mapa extends Component {
                region.latitude,
                region.longitude
             );
-            this.generarDireccion(response.results[0]);
          }
       }, 1000);
    };
@@ -99,66 +87,12 @@ export class Mapa extends Component {
          coordinate: { latitude: region.latitude, longitude: region.longitude },
       });
    };
-   generarDireccion = info => {
-     // console.log('info', info.address_components);
-      let componentes = info.address_components;
-      let direccionName = {};
-      if (componentes) {
-         for (let i = 0; i < componentes.length; i++) {
-            let componente = componentes[i];
-            console.log('componente', componente);
-            for (let j = 0; j < componente.types.length; j++) {
-               if (componente.types[j] == 'route') {
-                  direccionName.route = componente.short_name;
-               }
-               if (componente.types[j] == 'point_of_interest') {
-                  direccionName.point_of_interest = componente.short_name;
-               }
-               if (componente.types[j] == 'street_number') {
-                  direccionName.street_number = componente.short_name;
-               }
-               if (componente.types[j] == 'sublocality') {
-                  direccionName.sublocality = componente.short_name;
-               }
-               if (componente.types[j] == 'locality') {
-                  direccionName.locality = componente.short_name;
-               }
-               if (componente.types[j] == 'country') {
-                  direccionName.country = componente.long_name;
-               }
-            }
-         }
-      }
-      //point_of_interest, route street_number, sublocality, locality
-      //console.log('direccion===>', direccionName);
-      let nombreDireccion = '';
-
-      if (direccionName) {
-         let numeroCalle =
-            direccionName.route + ' ' + direccionName.street_number;
-         let resNumeroCalle = numeroCalle.replace(/undefined/gi, '');
-         let str =
-            direccionName.point_of_interest +
-            ',' +
-            resNumeroCalle +
-            ',' +
-            direccionName.sublocality +
-            ',' +
-            direccionName.locality +
-            ',' +
-            direccionName.country;
-         let res = str.replace(/, ,/gi, ',');
-         nombreDireccion = res.replace(/undefined,/gi, '');
-      }
-
-      //console.log('direccionName===>', nombreDireccion);
-      this.setState({ direccion: nombreDireccion });
-   };
+   
    onMarkerPress = i => {
       const { navigation } = this.props;
          navigation.navigate('Ruta', {
             direccion: this.state.markers[i],
-            horario: this.origen
+            jornada: this.jornada
          });
    }
 
