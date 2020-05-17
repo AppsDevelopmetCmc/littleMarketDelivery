@@ -12,8 +12,9 @@ import { ListaCompras } from "../compras/ListaCompras";
 import { ListaPedidos } from "../pedidos/ListaPedidos";
 
 import MiCuenta from "../account/MiCuenta";
-import { Mapa } from '../map/Mapa';
-import { Ruta } from '../map/Ruta';
+import { Mapa } from "../map/Mapa";
+import { Ruta } from "../map/Ruta";
+import { ResumenPedido } from "../pedidos/ResumenPedido";
 import Cargando from "../../components/Cargando";
 import { cargarConfiguracion } from "../../utils/FireBase";
 
@@ -47,7 +48,6 @@ function AuthenticationStack() {
   if (login === null) {
     return <Cargando isVisible={true} text="Cargando ..."></Cargando>;
   } else {
-    
     return (
       <StackAuthentication.Navigator>
         {login ? (
@@ -55,9 +55,7 @@ function AuthenticationStack() {
             name="HomeTabScreen"
             component={ScreensFromTabs}
             options={navOptionHandler(false)}
-          >
-
-          </StackAuthentication.Screen>
+          ></StackAuthentication.Screen>
         ) : (
           <StackAuthentication.Screen
             name="LoginStack"
@@ -77,16 +75,9 @@ function ScreensFromTabs() {
            component={HomeTab}
            options={navOptionHandler(false)}
         ></StackFromTabs.Screen>
-  <StackDirection.Screen
-           name="Mapa"
-            component={Mapa}
-            />
-            <StackDirection.Screen
-           name="Ruta"
-            component={Ruta}
-            />
-
-        
+      <StackDirection.Screen name="Mapa" component={Mapa} />
+      <StackDirection.Screen name="Ruta" component={Ruta} />
+      <StackDirection.Screen name="ResumenPedido" component={ResumenPedido} />
      </StackFromTabs.Navigator>
   );
 }
