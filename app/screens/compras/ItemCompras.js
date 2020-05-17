@@ -1,19 +1,52 @@
-import React, { Component } from "react";
-import { Text, View, StyleSheet, Button, FlatList } from "react-native";
-import { Avatar } from "react-native-elements";
-
+import React, { Component, useState } from "react";
+import { Text, View, StyleSheet } from "react-native";
+import { CheckBox } from "react-native-elements";
+import { modificarColeccion } from "../../services/ServicioCrud";
+import { SafeAreaView } from "react-native-safe-area-context";
 export class ItemCompras extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      checked: this.props.compras.estado,
+    };
+  }
+
+  actualizarEstado = () => {
+    this.setState({ checked: !this.state.checked });
+    console.log("ESTADO" + this.state.checked);
+    modificarColeccion(
+      "compras",
+      "zantycb89@gmail.com",
+      "productos",
+      this.props.compras.id,
+      { estado: !this.state.checked }
+    );
+  };
+
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.imagenes}>
-          <Avatar source={{ uri: this.props.product.imagen }}></Avatar>
+        <View style={styles.container}>
+          <View style={styles.columna1}>
+            <CheckBox
+              title=" "
+              checked={this.state.checked}
+              onPress={this.actualizarEstado}
+              style={styles.check}
+            />
+          </View>
+          <View style={styles.columna2}>
+            <Text> {this.props.compras.cantidad}</Text>
+          </View>
+          <View style={styles.columna3}>
+            <Text> {this.props.compras.unidad}</Text>
+          </View>
+          <View style={styles.columna4}>
+            <Text> {this.props.compras.id}</Text>
+          </View>
+          <View style={styles.columna5}>
+            <Text> {this.props.compras.precio}</Text>
+          </View>
         </View>
-        <View style={styles.fila}>
-          <Text> {this.props.product.id}</Text>
-          <Text> {this.props.product.precio}</Text>
-        </View>
-      </View>
     );
   }
 }
@@ -21,22 +54,47 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    borderWidth: 1,
     borderColor: "#20232a",
-    //borderRadius: 6,
-    ///backgroundColor: "#61dafb",
+    borderBottomWidth: 1,
     color: "#20232a",
-    marginTop: 10,
-  },
-  fila: {
-    flex: 6,
-    flexDirection: "row",
-    backgroundColor: "#FF5733",
+    //marginTop: 10,
     alignItems: "center", // alinea verticalmente
-    justifyContent: "center", // alinea horizontalmente
+    //backgroundColor: "#FF5733",
+    marginLeft: 10,
+    marginRight: 10,
+
+    justifyContent: "center",
   },
-  imagenes: {
+  columna1: {
+    flex: 1,
+    //backgroundColor: "green",
+    justifyContent: "center",
+  },
+  columna2: {
+    flex: 1.2,
+    // backgroundColor: "blue",
+    justifyContent: "center",
+    alignItems: "center", // alinea verticalmente
+  },
+  columna3: {
+    flex: 1.5,
+    //backgroundColor: "yellow",
+    justifyContent: "center",
+    alignItems: "center", // alinea verticalmente
+  },
+  columna4: {
     flex: 2,
-    backgroundColor: "#46160C",
+    //backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center", // alinea verticalmente
+  },
+  columna5: {
+    flex: 1,
+    //backgroundColor: "green",
+    justifyContent: "center",
+    alignItems: "flex-end", // alinea verticalmente
+  },
+  check: {
+    backgroundColor: "green",
   },
 });

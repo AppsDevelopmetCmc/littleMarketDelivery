@@ -89,9 +89,7 @@ export class Ruta extends Component {
              <Text>REFERENCIA: {this.state.direccion.referencia}</Text>
           <Button title='TERMINAR PEDIDO'
                onPress={() => {
-                navigation.navigate('Mapa', {
-                  origen: horario,
-               });
+              navigation.navigate("ResumenPedido");
                }}
         ></Button>
             {this.state.region ? (
