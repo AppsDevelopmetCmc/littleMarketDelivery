@@ -9,21 +9,23 @@ import {
 import { ItemResumenPedido } from "./ItemResumenPedido";
 
 export class ResumenPedido extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.jornada = this.props.route.params.jornada;
+    this.direccion = this.props.route.params.direccion;
     this.state = {
       detalle: {},
       combos: []
     };
     coleccionDeColeccion(
       "pedidos",
-      "QoBF6UfJdVuWLAbunlMo",
+      this.direccion.key,
       "combos",
       this.pintarDetalle
     );
     recuperarDocumento(
       "pedidos",
-      "QoBF6UfJdVuWLAbunlMo",
+      this.direccion.key,
       this.repintarCabecera
     );
   }
@@ -99,10 +101,10 @@ export class ResumenPedido extends Component {
           <Button
             title="Confirmar Entrega"
             onPress={() => {
-              modificarDocumento("pedidos", "QoBF6UfJdVuWLAbunlMo", {
+              modificarDocumento("pedidos", this.direccion.key, {
                 estado: "PE",
               });
-              navigation.navigate("Mapa");
+              navigation.navigate("Mapa",{jornada: this.jornada});
             }}
           ></Button>
         </View>

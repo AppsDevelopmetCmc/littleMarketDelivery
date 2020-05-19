@@ -11,7 +11,7 @@ export class ListaPedidos extends Component {
         <Button title='PEDIDOS MAÑANA'
                onPress={() => {
                 navigation.navigate('Mapa', {
-                  origen: 'M',
+                  jornada: 'M',
                });
                }}
         ></Button>
@@ -19,7 +19,7 @@ export class ListaPedidos extends Component {
         title='PEDIDOS TARDE'
         onPress={() => {
           navigation.navigate('Mapa', {
-            origen: 'T',
+            jornada: 'T',
          });
         }}
         ></Button>
