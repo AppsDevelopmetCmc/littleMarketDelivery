@@ -165,6 +165,7 @@ export class Ruta extends Component {
       <View style={[styles.container]}>
         <View style={{ flex: 1 }}>
           <Text>REFERENCIA: {this.state.direccion.referencia}</Text>
+          <Text>CODIGO: {this.state.direccion.orden}</Text>
           <Text>NOMBRE CLIENTE: {this.state.direccion.nombreCliente}</Text>
           <Text>TELEFONO CLIENTE: {this.state.direccion.telefonoCliente}</Text>
           <Button

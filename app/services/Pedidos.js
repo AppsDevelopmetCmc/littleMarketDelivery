@@ -22,6 +22,7 @@ export const recuperarPedidosAsociado = (
         let obj = {
           nombreCliente: data.nombreCliente,
           telefonoCliente: data.telefono,
+          orden: data.orden,
           key: change.doc.id,
           direccion: data.direccion,
           referencia: data.referencia,
