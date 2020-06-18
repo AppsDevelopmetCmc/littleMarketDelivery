@@ -33,7 +33,7 @@ export class ListaPedidoCombo extends Component {
       this.setState({ mostrarCargando: true });
       let pedidos = [];
       let srvPedido = new ServicioPedidos();
-      srvPedido.registrarEscuchaTodasFechaRepartidor(formatearFechaISO(this.state.fecha), 'alex.inca66@gmail.com'/*global.usuario*/,
+      srvPedido.registrarEscuchaTodasFechaRepartidor(formatearFechaISO(this.state.fecha), global.usuario,
          pedidos, this.repintarLista, this.finalizarCargando)
 
    }
