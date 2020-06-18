@@ -9,11 +9,12 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import * as colores from '../constants/Colores';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function PaginaIncio(props) {
    const { navigation } = props;
    return (
-      <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.container}>
          <Image
             source={require('../../assets/img/InicioImg.png')}
             resizeMode="stretch"
@@ -39,7 +40,7 @@ export default function PaginaIncio(props) {
                }}
             ></Button>
          </View>
-      </SafeAreaView>
+      </ScrollView>
    );
 }
 

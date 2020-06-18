@@ -17,12 +17,15 @@ import { Ruta } from "../map/Ruta";
 import { ResumenPedido } from "../pedidos/ResumenPedido";
 import Cargando from "../../components/Cargando";
 import { cargarConfiguracion } from "../../utils/FireBase";
+import { ListaPedidoCombo } from '../repartidor/ListaPedidoCombo'
+import { ListaItemsPedidoCombo } from '../repartidor/ListaItemsPedidoCombo'
 
 const StackAuthentication = createStackNavigator();
 const StackLogin = createStackNavigator();
 const StackDirection = createStackNavigator();
 const StackFromTabs = createStackNavigator();
 const TabHome = createBottomTabNavigator();
+const StackRepartidor = createStackNavigator();
 
 if (!global.firebaseRegistrado) {
   cargarConfiguracion();
@@ -41,7 +44,7 @@ function AuthenticationStack() {
         global.usuario = user.email;
         global.infoUsuario = user.providerData[0];
         console.log(global.infoUsuario);
-     }
+      }
     });
   }, [login]);
 
@@ -57,28 +60,43 @@ function AuthenticationStack() {
             options={navOptionHandler(false)}
           ></StackAuthentication.Screen>
         ) : (
-          <StackAuthentication.Screen
-            name="LoginStack"
-            component={LoginStack}
-            options={navOptionHandler(false)}
-          ></StackAuthentication.Screen>
-        )}
+            <StackAuthentication.Screen
+              name="LoginStack"
+              component={LoginStack}
+              options={navOptionHandler(false)}
+            ></StackAuthentication.Screen>
+          )}
       </StackAuthentication.Navigator>
     );
   }
 }
 function ScreensFromTabs() {
   return (
-     <StackFromTabs.Navigator initialRouteName="HomeTab">
-        <StackFromTabs.Screen
-           name="HomeTab"
-           component={HomeTab}
-           options={navOptionHandler(false)}
-        ></StackFromTabs.Screen>
+    <StackFromTabs.Navigator initialRouteName="HomeTab">
+      <StackFromTabs.Screen
+        name="HomeTab"
+        component={HomeTab}
+        options={navOptionHandler(false)}
+      ></StackFromTabs.Screen>
       <StackDirection.Screen name="Mapa" component={Mapa} />
       <StackDirection.Screen name="Ruta" component={Ruta} />
       <StackDirection.Screen name="ResumenPedido" component={ResumenPedido} />
-     </StackFromTabs.Navigator>
+    </StackFromTabs.Navigator>
+  );
+}
+
+function RepartidorStackScreen() {
+  return (
+    <StackRepartidor.Navigator>
+      <StackRepartidor.Screen name="ListaPedidoComboScreen"
+        component={ListaPedidoCombo}
+        options={navOptionHandler(false)}
+      />
+      <StackRepartidor.Screen name="ListaItemsPedidoComboScreen"
+        component={ListaItemsPedidoCombo}
+        options={navOptionHandler(false)}
+      />
+    </StackRepartidor.Navigator>
   );
 }
 
@@ -93,6 +111,11 @@ function HomeTab() {
         name="ListaPedidos"
         component={ListaPedidos}
       ></TabHome.Screen>
+      <TabHome.Screen
+        name="RepartidorStackScreen"
+        component={RepartidorStackScreen}
+        options={{ tabBarLabel: 'Verificar' }}
+      />
     </TabHome.Navigator>
   );
 }
@@ -117,18 +140,18 @@ function LoginStack() {
 }
 
 function DirectionStack() {
-   return (
-      <StackDirection.Navigator>
-         <StackDirection.Screen
-            name="Mapa"
-            component={Mapa}
-         ></StackDirection.Screen>
-         <StackDirection.Screen
-            name="HomeTab"
-            component={HomeTab}
-         ></StackDirection.Screen>
-      </StackDirection.Navigator>
-   );
+  return (
+    <StackDirection.Navigator>
+      <StackDirection.Screen
+        name="Mapa"
+        component={Mapa}
+      ></StackDirection.Screen>
+      <StackDirection.Screen
+        name="HomeTab"
+        component={HomeTab}
+      ></StackDirection.Screen>
+    </StackDirection.Navigator>
+  );
 }
 export default function NavegadorInicio() {
   return (
