@@ -1,158 +1,92 @@
 import React, { useState, useEffect } from "react";
 import * as firebase from "firebase";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import PaginaInicio from "../PaginaInicio";
-import Registro from "../account/Registro";
-import IniciaSesion from "../account/IniciarSesion";
-import { ListaCompras } from "../compras/ListaCompras";
-import { ListaPedidos } from "../pedidos/ListaPedidos";
-
-import MiCuenta from "../account/MiCuenta";
-import { Mapa } from "../map/Mapa";
-import { Ruta } from "../map/Ruta";
-import { ResumenPedido } from "../pedidos/ResumenPedido";
 import Cargando from "../../components/Cargando";
 import { cargarConfiguracion } from "../../utils/FireBase";
-import { ListaPedidoCombo } from '../repartidor/ListaPedidoCombo'
-import { ListaItemsPedidoCombo } from '../repartidor/ListaItemsPedidoCombo'
+import { VerificacionMail } from "../account/form/VerificacionMail";
+import { PerfilDistribuidor } from "../account/PerfilDistribuidor";
+
+// Importación de NavigationStacks
+import { LoginStack } from "./navigationScreens/NavigationStacks";
+import { ScreensFromTabs } from "./navigationScreens/NavigationFromTabs";
+
+// Importacion de funciones
+import { navOptionHandler } from "../../utils/Validaciones";
 
 const StackAuthentication = createStackNavigator();
-const StackLogin = createStackNavigator();
-const StackDirection = createStackNavigator();
-const StackFromTabs = createStackNavigator();
-const TabHome = createBottomTabNavigator();
-const StackRepartidor = createStackNavigator();
 
 if (!global.firebaseRegistrado) {
   cargarConfiguracion();
 }
-const navOptionHandler = (isValue) => ({
-  headerShown: isValue,
-});
 
 function AuthenticationStack() {
   const [login, setLogin] = useState(null);
+  const [verificacionMail, setVerificacionMail] = useState(false);
+  const [verificacionPerfil, setVerificacionPerfil] = useState(false);
+  console.log("Logiin", login);
 
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      !user ? setLogin(false) : setLogin(true);
-      if (user) {
-        global.usuario = user.email;
-        global.infoUsuario = user.providerData[0];
-        console.log(global.infoUsuario);
+  try {
+    useEffect(() => {
+      firebase.auth().onAuthStateChanged((user) => {
+        !user ? setLogin(false) : setLogin(true);
+
+        if (user) {
+          global.usuario = user.email;
+          global.infoUsuario = user.providerData[0];
+          console.log("Información del Usuario", global.infoUsuario);
+          if (!user.emailVerified) {
+            console.log("Ingreso a validar si el email fue verificado");
+            setVerificacionMail(false);
+            setVerificacionPerfil(false);
+          } else {
+            setVerificacionMail(true);
+            setVerificacionPerfil(false);
+          }
+        }
+      });
+    }, []);
+
+    if (!verificacionMail) {
+      return <VerificacionMail fueVerificado={setVerificacionMail} />;
+    } else {
+      if (!verificacionPerfil) {
+        return (
+          <PerfilDistribuidor
+            fueLLenada={setVerificacionPerfil}
+            login={setLogin}
+          />
+        );
       }
-    });
-  }, [login]);
-
-  if (login === null) {
-    return <Cargando isVisible={true} text="Cargando ..."></Cargando>;
-  } else {
-    return (
-      <StackAuthentication.Navigator>
-        {login ? (
-          <StackAuthentication.Screen
-            name="HomeTabScreen"
-            component={ScreensFromTabs}
-            options={navOptionHandler(false)}
-          ></StackAuthentication.Screen>
-        ) : (
+    }
+    if (login === null) {
+      return <Cargando isVisible={true} text="Cargando ..."></Cargando>;
+    } else {
+      return (
+        <StackAuthentication.Navigator>
+          {login ? (
+            <StackAuthentication.Screen
+              name="HomeTabScreen"
+              component={ScreensFromTabs}
+              options={navOptionHandler(false)}
+            ></StackAuthentication.Screen>
+          ) : (
             <StackAuthentication.Screen
               name="LoginStack"
               component={LoginStack}
               options={navOptionHandler(false)}
             ></StackAuthentication.Screen>
           )}
-      </StackAuthentication.Navigator>
-    );
+        </StackAuthentication.Navigator>
+      );
+    }
+  } catch (error) {
+    console.log("error", error);
   }
 }
-function ScreensFromTabs() {
-  return (
-    <StackFromTabs.Navigator initialRouteName="HomeTab">
-      <StackFromTabs.Screen
-        name="HomeTab"
-        component={HomeTab}
-        options={navOptionHandler(false)}
-      ></StackFromTabs.Screen>
-      <StackDirection.Screen name="Mapa" component={Mapa} />
-      <StackDirection.Screen name="Ruta" component={Ruta} />
-      <StackDirection.Screen name="ResumenPedido" component={ResumenPedido} />
-    </StackFromTabs.Navigator>
-  );
-}
 
-function RepartidorStackScreen() {
-  return (
-    <StackRepartidor.Navigator>
-      <StackRepartidor.Screen name="ListaPedidoComboScreen"
-        component={ListaPedidoCombo}
-        options={navOptionHandler(false)}
-      />
-      <StackRepartidor.Screen name="ListaItemsPedidoComboScreen"
-        component={ListaItemsPedidoCombo}
-        options={navOptionHandler(false)}
-      />
-    </StackRepartidor.Navigator>
-  );
-}
-
-function HomeTab() {
-  return (
-    <TabHome.Navigator>
-      <TabHome.Screen
-        name="ListaCompras"
-        component={ListaCompras}
-      ></TabHome.Screen>
-      <TabHome.Screen
-        name="ListaPedidos"
-        component={ListaPedidos}
-      ></TabHome.Screen>
-      <TabHome.Screen
-        name="RepartidorStackScreen"
-        component={RepartidorStackScreen}
-        options={{ tabBarLabel: 'Verificar' }}
-      />
-    </TabHome.Navigator>
-  );
-}
-function LoginStack() {
-  return (
-    <StackLogin.Navigator>
-      <StackLogin.Screen
-        name="Pagina Inicio"
-        component={PaginaInicio}
-        options={navOptionHandler(false)}
-      ></StackLogin.Screen>
-      <StackLogin.Screen
-        name="Registro"
-        component={Registro}
-      ></StackLogin.Screen>
-      <StackLogin.Screen
-        name="IniciaSesion"
-        component={IniciaSesion}
-      ></StackLogin.Screen>
-    </StackLogin.Navigator>
-  );
-}
-
-function DirectionStack() {
-  return (
-    <StackDirection.Navigator>
-      <StackDirection.Screen
-        name="Mapa"
-        component={Mapa}
-      ></StackDirection.Screen>
-      <StackDirection.Screen
-        name="HomeTab"
-        component={HomeTab}
-      ></StackDirection.Screen>
-    </StackDirection.Navigator>
-  );
-}
 export default function NavegadorInicio() {
   return (
     <NavigationContainer>
