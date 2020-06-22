@@ -4,8 +4,8 @@ import { Button } from "react-native-elements";
 import * as colores from "../constants/Colores";
 
 export default function PaginaIncio(props) {
-  const { navigation } = props;
-  return (
+   const { navigation } = props;
+   return (
     <View style={styles.container}>
       <ImageBackground
         source={require("../../assets/img/Fondo.png")}
@@ -16,44 +16,44 @@ export default function PaginaIncio(props) {
             source={require("../../assets/img/LogoYappando.png")}
             width="100%"
           ></Image>
-          <Image
+         <Image
             source={require("../../assets/img/Yappando.png")}
             width="100%"
-          ></Image>
+         ></Image>
         </View>
         <View style={styles.containerRow}>
-          <Button
-            title="Iniciar Sesión"
-            buttonStyle={styles.estiloBoton}
+            <Button
+               title="Iniciar Sesión"
+               buttonStyle={styles.estiloBoton}
             titleStyle={styles.estiloTitulo}
-            onPress={() => {
+               onPress={() => {
               navigation.navigate("IniciaSesion");
-            }}
-          ></Button>
-          <Button
+               }}
+            ></Button>
+            <Button
             title="Regístrate"
             buttonStyle={styles.estiloBoton}
-            titleStyle={styles.estiloTitulo}
-            onPress={() => {
+               titleStyle={styles.estiloTitulo}
+               onPress={() => {
               navigation.navigate("Registro");
-            }}
-          ></Button>
-        </View>
+               }}
+            ></Button>
+         </View>
       </ImageBackground>
     </View>
-  );
+   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+   container: {
+      flex: 1,
     backgroundColor: colores.colorClaroPrimarioVerde,
-  },
-  containerRow: {
+   },
+   containerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 40,
-  },
+      marginHorizontal: 40,
+   },
   imgInicio: {
     flex: 1,
     resizeMode: "cover",
@@ -67,11 +67,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  estiloBoton: {
+   estiloBoton: {
     backgroundColor: colores.colorPrimarioTomate,
-    width: 130,
-    height: 45,
+      width: 130,
+      height: 45,
     borderRadius: 10,
-  },
+   },
   estiloTitulo: { color: colores.colorBlancoTexto },
 });
