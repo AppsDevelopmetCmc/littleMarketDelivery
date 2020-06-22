@@ -8,8 +8,11 @@ import PaginaInicio from "../../PaginaInicio";
 import Registro from "../../account/Registro";
 import IniciaSesion from "../../account/IniciarSesion";
 import { navOptionHandler } from "../../../utils/Validaciones";
+import { ListaItemsPedidoCombo } from "../../repartidor/ListaItemsPedidoCombo";
+import { ListaPedidoCombo } from "../../repartidor/ListaPedidoCombo";
 
 const StackLogin = createStackNavigator();
+const StackRepartidor = createStackNavigator();
 
 export function LoginStack() {
   return (
@@ -28,5 +31,22 @@ export function LoginStack() {
         component={IniciaSesion}
       ></StackLogin.Screen>
     </StackLogin.Navigator>
+  );
+}
+
+export function RepartidorStackScreen() {
+  return (
+    <StackRepartidor.Navigator>
+      <StackRepartidor.Screen
+        name="ListaPedidoComboScreen"
+        component={ListaPedidoCombo}
+        options={navOptionHandler(false)}
+      />
+      <StackRepartidor.Screen
+        name="ListaItemsPedidoComboScreen"
+        component={ListaItemsPedidoCombo}
+        options={navOptionHandler(false)}
+      />
+    </StackRepartidor.Navigator>
   );
 }

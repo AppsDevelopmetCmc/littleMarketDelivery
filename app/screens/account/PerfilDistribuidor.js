@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, ScrollView, SafeAreaView } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
 import { colorOscuroTexto, colorPrimarioVerde } from "../../constants/Colores";
 

@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import { colorOscuroTexto } from "../../../constants/Colores";
 
@@ -8,7 +7,7 @@ export function VerificacionMail(props) {
   console.log("props de VerificacionMail", props);
   const { fueVerificado } = props;
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <View style={styles.safeAreaView}>
       <Text style={styles.textTitulo}>Bienvenido a Yappando Delivery</Text>
       <Text style={styles.textNormal}>
         No has verificado tu correo electrónico
@@ -30,7 +29,7 @@ export function VerificacionMail(props) {
           fueVerificado(true);
         }}
       ></Button>
-    </SafeAreaView>
+    </View>
   );
 }
 

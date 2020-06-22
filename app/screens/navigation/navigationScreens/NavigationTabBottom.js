@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { ListaCompras } from "../../compras/ListaCompras";
 import { ListaPedidos } from "../../pedidos/ListaPedidos";
+import { RepartidorStackScreen } from "./NavigationStacks";
 
 const TabHome = createBottomTabNavigator();
 
@@ -19,6 +20,11 @@ export function HomeTab() {
         name="ListaPedidos"
         component={ListaPedidos}
       ></TabHome.Screen>
+      <TabHome.Screen
+        name="RepartidorStackScreen"
+        component={RepartidorStackScreen}
+        options={{ tabBarLabel: "Verificar" }}
+      />
     </TabHome.Navigator>
   );
 }
