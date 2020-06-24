@@ -1,11 +1,26 @@
 import React from "react";
+import * as firebase from "firebase";
 import { StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-elements";
-import { colorOscuroTexto } from "../../../constants/Colores";
+import { colorOscuroTexto } from "../../constants/Colores";
 
 export function VerificacionMail(props) {
-  console.log("props de VerificacionMail", props);
-  const { fueVerificado } = props;
+  console.log("Ingreso a VerificacionMail");
+
+  const cerrarSesion = () => {
+    firebase.auth().signOut();
+  };
+
+  const reenvioMailVerfica = () => {
+    let usuarioRegistrado = firebase.auth().currentUser;
+    usuarioRegistrado
+      .sendEmailVerification()
+      .then(function () {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <View style={styles.safeAreaView}>
       <Text style={styles.textTitulo}>Bienvenido a Yappando Delivery</Text>
@@ -25,8 +40,14 @@ export function VerificacionMail(props) {
         title={"Continuar"}
         containerStyle={{ marginTop: 40 }}
         onPress={() => {
-          console.log("Ingreso a la pantalla de validacion");
-          fueVerificado(true);
+          cerrarSesion();
+        }}
+      ></Button>
+      <Button
+        title={"Reenviar mail de verificación"}
+        containerStyle={{ marginTop: 40 }}
+        onPress={() => {
+          reenvioMailVerfica();
         }}
       ></Button>
     </View>
