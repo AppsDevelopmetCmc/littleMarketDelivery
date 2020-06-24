@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Button, FlatList } from "react-native";
+import { Text, View, StyleSheet, Button, FlatList,SafeAreaView } from "react-native";
 import {
   coleccionDeColeccion,
   recuperarDocumento,
 } from "../../services/ServicioCrud";
 import { ItemCompras } from "./ItemCompras";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 
 export class ListaCompras extends Component {
   constructor() {

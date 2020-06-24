@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Cargando from "../../components/Cargando";
 import { cargarConfiguracion } from "../../utils/FireBase";
-import { VerificacionMail } from "../account/form/VerificacionMail";
+import { VerificacionMail } from "../account/VerificacionMail";
 import { PerfilDistribuidor } from "../account/PerfilDistribuidor";
 
 // Importación de NavigationStacks
@@ -31,9 +31,8 @@ function AuthenticationStack() {
   try {
     useEffect(() => {
       firebase.auth().onAuthStateChanged((user) => {
-        !user ? setLogin(false) : setLogin(true);
-
         if (user) {
+          setLogin(true);
           global.usuario = user.email;
           global.infoUsuario = user.providerData[0];
           console.log("Información del Usuario", global.infoUsuario);
@@ -45,14 +44,16 @@ function AuthenticationStack() {
             setVerificacionMail(true);
             setVerificacionPerfil(false);
           }
+        } else {
+          setLogin(false);
         }
       });
     }, []);
 
-    if (!verificacionMail) {
+    if (!verificacionMail && login) {
       return <VerificacionMail fueVerificado={setVerificacionMail} />;
     } else {
-      if (!verificacionPerfil) {
+      if (!verificacionPerfil && login) {
         return (
           <PerfilDistribuidor
             fueLLenada={setVerificacionPerfil}
