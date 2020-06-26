@@ -1,6 +1,13 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, FlatList, Button } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Button,
+  SafeAreaView,
+} from "react-native";
+
 import {
   recuperarDocumento,
   coleccionDeColeccion,
@@ -15,7 +22,7 @@ export class ResumenPedido extends Component {
     this.direccion = this.props.route.params.direccion;
     this.state = {
       detalle: {},
-      combos: []
+      combos: [],
     };
     coleccionDeColeccion(
       "pedidos",
@@ -23,11 +30,7 @@ export class ResumenPedido extends Component {
       "combos",
       this.pintarDetalle
     );
-    recuperarDocumento(
-      "pedidos",
-      this.direccion.key,
-      this.repintarCabecera
-    );
+    recuperarDocumento("pedidos", this.direccion.key, this.repintarCabecera);
   }
 
   repintarCabecera = (datosPedido) => {
@@ -104,7 +107,7 @@ export class ResumenPedido extends Component {
               modificarDocumento("pedidos", this.direccion.key, {
                 estado: "PE",
               });
-              navigation.navigate("Mapa",{jornada: this.jornada});
+              navigation.navigate("Mapa", { jornada: this.jornada });
             }}
           ></Button>
         </View>

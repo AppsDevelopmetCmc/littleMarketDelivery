@@ -7,7 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Cargando from "../../components/Cargando";
 import { cargarConfiguracion } from "../../utils/FireBase";
 import { VerificacionMail } from "../account/VerificacionMail";
-import { PerfilDistribuidor } from "../account/PerfilDistribuidor";
+import { PerfilDistribuidor } from "../dataDelivery/PerfilDistribuidor";
 
 // Importación de NavigationStacks
 import { LoginStack } from "./navigationScreens/NavigationStacks";
@@ -55,10 +55,7 @@ function AuthenticationStack() {
     } else {
       if (!verificacionPerfil && login) {
         return (
-          <PerfilDistribuidor
-            fueLLenada={setVerificacionPerfil}
-            login={setLogin}
-          />
+          <PerfilDistribuidor setVerificacionPerfil={setVerificacionPerfil} />
         );
       }
     }

@@ -25,7 +25,11 @@ export const colorClaroTexto = "#c1c1c1";
 export const colorPrimarioTexto = "#333333";
 
 // Color Blanco y Negro
-export const colorBlanco = '#ffffff';
-export const colorNegro = '#000000';
+export const colorBlanco = "#ffffff";
+export const colorNegro = "#000000";
 // Color Plomo
-export const plomo = '#DDDDDD';
+export const plomo = "#DDDDDD";
+
+//Color Crema
+export const colorCrema = "#F7F8E2";
+export const colorCremaOscuro = "#E0DEC1";

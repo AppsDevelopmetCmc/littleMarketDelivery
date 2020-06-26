@@ -2,7 +2,7 @@ import React, { Component, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { modificarColeccion } from "../../services/ServicioCrud";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 export class ItemCompras extends Component {
   constructor(props) {
     super(props);
@@ -25,28 +25,28 @@ export class ItemCompras extends Component {
 
   render() {
     return (
-        <View style={styles.container}>
-          <View style={styles.columna1}>
-            <CheckBox
-              title=" "
-              checked={this.state.checked}
-              onPress={this.actualizarEstado}
-              style={styles.check}
-            />
-          </View>
-          <View style={styles.columna2}>
-            <Text> {this.props.compras.cantidad}</Text>
-          </View>
-          <View style={styles.columna3}>
-            <Text> {this.props.compras.unidad}</Text>
-          </View>
-          <View style={styles.columna4}>
-            <Text> {this.props.compras.id}</Text>
-          </View>
-          <View style={styles.columna5}>
-            <Text> {this.props.compras.precio}</Text>
-          </View>
+      <View style={styles.container}>
+        <View style={styles.columna1}>
+          <CheckBox
+            title=" "
+            checked={this.state.checked}
+            onPress={this.actualizarEstado}
+            style={styles.check}
+          />
         </View>
+        <View style={styles.columna2}>
+          <Text> {this.props.compras.cantidad}</Text>
+        </View>
+        <View style={styles.columna3}>
+          <Text> {this.props.compras.unidad}</Text>
+        </View>
+        <View style={styles.columna4}>
+          <Text> {this.props.compras.id}</Text>
+        </View>
+        <View style={styles.columna5}>
+          <Text> {this.props.compras.precio}</Text>
+        </View>
+      </View>
     );
   }
 }
