@@ -4,22 +4,23 @@ import { Text, View, StyleSheet } from "react-native";
 export class ItemResumenPedido extends Component {
   constructor(props) {
     super(props);
+    console.log("props", props);
   }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.columna1}>
-          <Text>{this.props.combos.cantidad}</Text>
+          <Text>{this.props.combos.cantidadItem}</Text>
         </View>
         <View style={styles.columna2}>
-          <Text> {this.props.combos.id}</Text>
+          <Text> {this.props.combos.unidad}</Text>
         </View>
         <View style={styles.columna3}>
-          <Text> {this.props.combos.precio}</Text>
+          <Text> {this.props.combos.nombre}</Text>
         </View>
         <View style={styles.columna4}>
-          <Text> {this.props.combos.subtotal}</Text>
+          <Text> {this.props.combos.cantidad}</Text>
         </View>
       </View>
     );

@@ -38,11 +38,11 @@ function AuthenticationStack() {
           console.log("Información del Usuario", global.infoUsuario);
           if (!user.emailVerified) {
             console.log("Ingreso a validar si el email fue verificado");
-            setVerificacionMail(false);
-            setVerificacionPerfil(false);
+            setVerificacionMail(true);
+            setVerificacionPerfil(true);
           } else {
             setVerificacionMail(true);
-            setVerificacionPerfil(false);
+            setVerificacionPerfil(true);
           }
         } else {
           setLogin(false);

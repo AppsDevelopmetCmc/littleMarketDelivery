@@ -6,6 +6,7 @@ import {
   FlatList,
   Button,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 
 import {
@@ -46,7 +47,7 @@ export class ResumenPedido extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <SafeAreaView>
+      <ScrollView>
         <View style={styles.container}>
           <Text>Cliente : {this.state.detalle.nombreCliente}</Text>
           <Text>Teléfono : {this.state.detalle.telefono}</Text>
@@ -64,13 +65,13 @@ export class ResumenPedido extends Component {
             <Text> Cantidad </Text>
           </View>
           <View style={styles.columna2}>
-            <Text> Producto </Text>
+            <Text> Unidades </Text>
           </View>
           <View style={styles.columna3}>
-            <Text> Precio U.</Text>
+            <Text> Nombre</Text>
           </View>
           <View style={styles.columna4}>
-            <Text> Total</Text>
+            <Text> Paquetes</Text>
           </View>
         </View>
 
@@ -111,7 +112,7 @@ export class ResumenPedido extends Component {
             }}
           ></Button>
         </View>
-      </SafeAreaView>
+      </ScrollView>
     );
   }
 }

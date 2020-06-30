@@ -12,10 +12,12 @@ export const recuperarPedidosAsociado = (
   let anio = new Date().getFullYear();
   let fechaActual = "" + dia + "/" + mes + "/" + anio;
 
+  console.log("Repartidor", global.usuario);
   global.db
     .collection(coleccion)
     .where("estado", "in", ["AA", "PI", "CT"])
-    .where("fechaEntrega", "==", "2020-06-11")
+    .where("fechaEntrega", "==", "2020-06-30")
+    .where("asociado", "==", global.usuario)
     .onSnapshot((snapShot) => {
       snapShot.docChanges().forEach((change) => {
         let data = change.doc.data();
