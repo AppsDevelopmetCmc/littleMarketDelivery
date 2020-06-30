@@ -1,6 +1,14 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, FlatList, Button } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Button,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
+
 import {
   recuperarDocumento,
   coleccionDeColeccion,
@@ -15,7 +23,7 @@ export class ResumenPedido extends Component {
     this.direccion = this.props.route.params.direccion;
     this.state = {
       detalle: {},
-      combos: []
+      combos: [],
     };
     coleccionDeColeccion(
       "pedidos",
@@ -23,11 +31,7 @@ export class ResumenPedido extends Component {
       "combos",
       this.pintarDetalle
     );
-    recuperarDocumento(
-      "pedidos",
-      this.direccion.key,
-      this.repintarCabecera
-    );
+    recuperarDocumento("pedidos", this.direccion.key, this.repintarCabecera);
   }
 
   repintarCabecera = (datosPedido) => {
@@ -43,7 +47,7 @@ export class ResumenPedido extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <SafeAreaView>
+      <ScrollView>
         <View style={styles.container}>
           <Text>Cliente : {this.state.detalle.nombreCliente}</Text>
           <Text>Teléfono : {this.state.detalle.telefono}</Text>
@@ -61,13 +65,13 @@ export class ResumenPedido extends Component {
             <Text> Cantidad </Text>
           </View>
           <View style={styles.columna2}>
-            <Text> Producto </Text>
+            <Text> Unidades </Text>
           </View>
           <View style={styles.columna3}>
-            <Text> Precio U.</Text>
+            <Text> Nombre</Text>
           </View>
           <View style={styles.columna4}>
-            <Text> Total</Text>
+            <Text> Paquetes</Text>
           </View>
         </View>
 
@@ -104,11 +108,11 @@ export class ResumenPedido extends Component {
               modificarDocumento("pedidos", this.direccion.key, {
                 estado: "PE",
               });
-              navigation.navigate("Mapa",{jornada: this.jornada});
+              navigation.navigate("Mapa", { jornada: this.jornada });
             }}
           ></Button>
         </View>
-      </SafeAreaView>
+      </ScrollView>
     );
   }
 }

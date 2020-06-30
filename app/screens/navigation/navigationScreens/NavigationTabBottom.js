@@ -12,10 +12,10 @@ const TabHome = createBottomTabNavigator();
 export function HomeTab() {
   return (
     <TabHome.Navigator>
-      <TabHome.Screen
+      {/* <TabHome.Screen
         name="ListaCompras"
         component={ListaCompras}
-      ></TabHome.Screen>
+      ></TabHome.Screen> */}
       <TabHome.Screen
         name="ListaPedidos"
         component={ListaPedidos}
