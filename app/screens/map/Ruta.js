@@ -10,6 +10,7 @@ import {
 import MapView, { PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
 import { apiKeyMaps, APIKEY } from "../../utils/ApiKey";
+import openMap from "react-native-open-maps";
 
 let { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -21,6 +22,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export class Ruta extends Component {
   constructor(props) {
     super(props);
+    console.log("Props Ruta", props);
     //cuando vengo por actualizar direccion obtengo los datos de la
     //direccion seleccionada
     this.jornada = this.props.route.params.jornada;
@@ -34,6 +36,24 @@ export class Ruta extends Component {
     };
     this.obtenerCoordenadas();
   }
+
+  openAppMap = () => {
+    console.log(this.direccion.coordinates.latitude);
+    console.log(this.direccion.coordinates.longitude);
+    console.log(this.state.direccion.nombreCliente);
+    const ruta =
+      this.direccion.coordinates.latitude +
+      "," +
+      this.direccion.coordinates.longitude;
+
+    console.log(ruta);
+
+    openMap({
+      zoom: 19,
+      query: ruta,
+    });
+  };
+
   obtenerRuta = async () => {
     const mode = "driving";
     const direccionDestino = this.state.direccion;
@@ -168,6 +188,8 @@ export class Ruta extends Component {
           <Text>CODIGO: {this.state.direccion.orden}</Text>
           <Text>NOMBRE CLIENTE: {this.state.direccion.nombreCliente}</Text>
           <Text>TELEFONO CLIENTE: {this.state.direccion.telefonoCliente}</Text>
+          <Button title={"Navegar"} onPress={this.openAppMap}></Button>
+          <View style={{ marginBottom: 10 }}></View>
           <Button
             title="TERMINAR PEDIDO"
             onPress={() => {
