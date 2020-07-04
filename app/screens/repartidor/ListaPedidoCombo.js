@@ -1,14 +1,6 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Alert,
-  Button,
-  FlatList,
-  Picker,
-} from "react-native";
-import { Input, Avatar, CheckBox } from "react-native-elements";
+import { View, Text, StyleSheet, Alert, FlatList, Picker } from "react-native";
+import { Input, Avatar, CheckBox, Button } from "react-native-elements";
 import { ServicioPedidos } from "../../services/ServicioPedidos";
 import { ItemPedido } from "./componentes/ItemPedido";
 import { formatearFechaISO } from "../../utils/DateUtil";
@@ -17,6 +9,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Cargando from "../../components/Cargando";
+import { estiloGlobal } from "../../styles/global/EstiloGlobal";
 
 export class ListaPedidoCombo extends Component {
   constructor(props) {
@@ -89,79 +82,93 @@ export class ListaPedidoCombo extends Component {
 
   render() {
     return (
-      <View style={styles.columna}>
-        <View style={styles.cabeceraTitulo}>
-          <Text style={styles.tituloCabecera}>Yappando</Text>
-        </View>
-        <View style={styles.date}>
-          <View style={styles.fila}>
-            <View style={styles.datePicker}>
-              <Text style={styles.textoNegritaBlanco}>
-                {"Seleccione la Fecha"}
-              </Text>
-              <TouchableHighlight
-                underlayColor={colores.colorClaroPrimarioVerde}
-                onPress={() => {
-                  this.showDatepicker();
-                }}
-              >
-                <View style={styles.contenedorFecha}>
-                  <View style={styles.contenedorIcon}>
-                    <Icon
-                      name="calendar-month-outline"
-                      size={27}
-                      color="orange"
-                      style={styles.icon}
-                    />
-                  </View>
-                  <View style={styles.borderFecha}>
-                    <Text style={styles.txtFecha}>
-                      {formatearFechaISO(this.state.fecha)}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-              {this.state.show && (
-                <DateTimePicker
-                  value={this.state.fecha}
-                  mode="date"
-                  display="default"
-                  onChange={this.onChange}
-                />
-              )}
-            </View>
-            <View style={styles.viewBtn}>
-              <View style={styles.btn}>
-                <Button title="Consultar" onPress={this.consultarPedidoFecha} />
-              </View>
-            </View>
-            <Cargando
-              text="Buscando Pedidos..."
-              isVisible={this.state.mostrarCargando}
-            ></Cargando>
+      <View style={estiloGlobal.contenedorPagina}>
+        <View style={estiloGlobal.cabecera}>
+          <View style={estiloGlobal.tituloCabera}>
+            <Text style={textEstilo(colores.colorBlancoTexto, 20, "bold")}>
+              Verifica tu pedido Yappando
+            </Text>
           </View>
         </View>
-        <View style={styles.pie}>
-          <View style={styles.titulo}>
-            <Text style={styles.textoNegrita}>{"Despachar Productos"}</Text>
-          </View>
-          <View style={styles.lista}>
-            <FlatList
-              data={this.state.listaPedidos}
-              renderItem={(objeto) => {
-                return (
-                  <ItemPedido
-                    pedido={objeto.item}
-                    fecha={formatearFechaISO(this.state.fecha)}
-                    fnpPedidoCombo={this.pedidoCombo}
+        <View style={estiloGlobal.pie}>
+          <Text style={textEstilo(colores.colorOscuroTexto, 14, "normal")}>
+            {"Seleccione la Fecha"}
+          </Text>
+          <View style={styles.date}>
+            <View style={styles.fila}>
+              <View style={styles.datePicker}>
+                <TouchableHighlight
+                  underlayColor={colores.colorClaroPrimarioVerde}
+                  onPress={() => {
+                    this.showDatepicker();
+                  }}
+                >
+                  <View style={styles.contenedorFecha}>
+                    <View style={styles.contenedorIcon}>
+                      <Icon
+                        name="calendar-month-outline"
+                        size={27}
+                        color="orange"
+                        style={styles.icon}
+                      />
+                    </View>
+                    <View style={styles.borderFecha}>
+                      <Text style={styles.txtFecha}>
+                        {formatearFechaISO(this.state.fecha)}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableHighlight>
+                {this.state.show && (
+                  <DateTimePicker
+                    value={this.state.fecha}
+                    mode="date"
+                    display="default"
+                    onChange={this.onChange}
                   />
-                );
-              }}
-              keyExtractor={(objetoPedido) => {
-                return objetoPedido.id;
-              }}
-              ItemSeparatorComponent={flatListItemSeparator}
-            />
+                )}
+              </View>
+              <View style={styles.viewBtn}>
+                <Button
+                  title="Consultar"
+                  buttonStyle={{
+                    width: 100,
+                    marginRight: 10,
+                  }}
+                  onPress={this.consultarPedidoFecha}
+                />
+              </View>
+              <Cargando
+                text="Buscando Pedidos..."
+                isVisible={this.state.mostrarCargando}
+              ></Cargando>
+            </View>
+
+            {this.state.listaPedidos.length != 0 && (
+              <View style={styles.titulo}>
+                <Text style={styles.textoNegrita}>
+                  {"Lista de pedidos a verificar"}
+                </Text>
+              </View>
+            )}
+            <View style={styles.lista}>
+              <FlatList
+                data={this.state.listaPedidos}
+                renderItem={(objeto) => {
+                  return (
+                    <ItemPedido
+                      pedido={objeto.item}
+                      fecha={formatearFechaISO(this.state.fecha)}
+                      fnpPedidoCombo={this.pedidoCombo}
+                    />
+                  );
+                }}
+                keyExtractor={(objetoPedido) => {
+                  return objetoPedido.id;
+                }}
+                ItemSeparatorComponent={flatListItemSeparator}
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -194,15 +201,22 @@ const flatListItemSeparator = () => {
   );
 };
 
+const textEstilo = (color, tamaño, tipo) => {
+  return {
+    color: color,
+    fontSize: tamaño,
+    fontWeight: tipo,
+  };
+};
+
 const styles = StyleSheet.create({
   titulo: {
-    alignItems: "center",
     flex: 1,
-    backgroundColor: colores.colorClaroPrimarioTomate,
-    borderTopLeftRadius: 20,
-    borderTopEndRadius: 20,
-    marginLeft: 15,
-    marginRight: 5,
+    backgroundColor: colores.colorPrimarioAmarilloRgba,
+    borderTopLeftRadius: 2,
+    borderTopEndRadius: 2,
+    marginTop: 20,
+    justifyContent: "center",
   },
   container: {
     flex: 1,
@@ -224,14 +238,16 @@ const styles = StyleSheet.create({
   },
   fila: {
     flexDirection: "row",
+    borderWidth: 1,
+    borderColor: colores.colorOscuroPrimarioAmarillo,
+    borderRadius: 8,
+    paddingVertical: 10,
   },
   date: {
     flex: 1,
   },
   datePicker: {
     flex: 1,
-    marginLeft: 10,
-    justifyContent: "center",
   },
   lista: {
     flex: 12,
@@ -242,9 +258,7 @@ const styles = StyleSheet.create({
   viewBtn: {
     flex: 1,
     justifyContent: "center",
-  },
-  btn: {
-    marginTop: 20,
+    alignItems: "flex-end",
   },
 
   textoNegrita: {

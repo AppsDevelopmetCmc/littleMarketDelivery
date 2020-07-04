@@ -16,11 +16,12 @@ export const recuperarPedidosAsociado = (
   global.db
     .collection(coleccion)
     .where("estado", "in", ["AA", "PI", "CT"])
-    //.where("fechaEntrega", "==", "2020-06-30")
-    //.where("asociado", "==", global.usuario)
+    .where("fechaEntrega", "==", "2020-07-04")
+    .where("asociado", "==", global.usuario)
     .onSnapshot((snapShot) => {
       snapShot.docChanges().forEach((change) => {
         let data = change.doc.data();
+        console.log(data);
         let obj = {
           nombreCliente: data.nombreCliente,
           telefonoCliente: data.telefono,
