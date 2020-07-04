@@ -31,7 +31,11 @@ export class ListaItemsPedidoCombo extends Component {
   componentDidMount() {
     console.log("Ingresa");
     let pedidoCombos = [];
+    const yapa = this.pedidoCombo.yapa === 'D'?{nombre:'YAPA Donada',cantidad:1,cantidadItem:1,unidad:'u'}:{nombre:'YAPA '+this.pedidoCombo.yapa,cantidad:1,cantidadItem:1,unidad:'u'};
+    pedidoCombos.push(yapa);
     let srvPedido = new ServicioPedidos();
+    console.log("pedido =>",this.pedidoCombo);
+    
     srvPedido.registrarEscuchaPedidoCombo(
       this.pedidoCombo.id,
       pedidoCombos,
@@ -40,7 +44,8 @@ export class ListaItemsPedidoCombo extends Component {
   }
 
   repintarLista = (combos) => {
-    console.log("ListaPedido", combos);
+   // console.log("ListaPedido", combos);
+
     this.setState({
       listaItemsPedidos: combos,
     });

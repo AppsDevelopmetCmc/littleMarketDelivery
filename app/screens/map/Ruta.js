@@ -6,10 +6,13 @@ import {
   Alert,
   Text,
   Button,
+  TouchableOpacity
 } from "react-native";
+import { Icon } from "react-native-elements";
 import MapView, { PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
-import { apiKeyMaps, APIKEY } from "../../utils/ApiKey";
+import { apiKeyMaps } from "../../utils/ApiKey";
+import { callNumber } from "../../utils/Contacto";
 import openMap from "react-native-open-maps";
 
 let { width, height } = Dimensions.get("window");
@@ -187,7 +190,25 @@ export class Ruta extends Component {
           <Text>REFERENCIA: {this.state.direccion.referencia}</Text>
           <Text>CODIGO: {this.state.direccion.orden}</Text>
           <Text>NOMBRE CLIENTE: {this.state.direccion.nombreCliente}</Text>
-          <Text>TELEFONO CLIENTE: {this.state.direccion.telefonoCliente}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text>TELEFONO CLIENTE:</Text>
+            <TouchableOpacity
+              style={{ flexDirection: "row", color: "#3b83bd" }}
+              onPress={() => {
+                callNumber(this.state.direccion.telefonoCliente);
+              }}
+            >
+              <Text  style={{ color: "#3b83bd" }}> {this.state.direccion.telefonoCliente}</Text>
+
+              <Icon
+                name="phone-outgoing"
+                type="material-community"
+                color="#3b83bd"
+                size={28}
+              />
+            </TouchableOpacity>
+          </View>
+
           <Button title={"Navegar"} onPress={this.openAppMap}></Button>
           <View style={{ marginBottom: 10 }}></View>
           <Button
