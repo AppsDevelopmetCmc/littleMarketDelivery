@@ -13,7 +13,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { ServicioPedidos } from "../../services/ServicioPedidos";
 import { ItemPedidoCombo } from "./componentes/ItemPedidoCombo";
 import * as colores from "../../constants/Colores";
-
+import { estiloGlobal } from "../../styles/global/EstiloGlobal";
 export class ListaItemsPedidoCombo extends Component {
   constructor(props) {
     super(props);
@@ -31,11 +31,19 @@ export class ListaItemsPedidoCombo extends Component {
   componentDidMount() {
     console.log("Ingresa");
     let pedidoCombos = [];
-    const yapa = this.pedidoCombo.yapa === 'D'?{nombre:'YAPA Donada',cantidad:1,cantidadItem:1,unidad:'u'}:{nombre:'YAPA '+this.pedidoCombo.yapa,cantidad:1,cantidadItem:1,unidad:'u'};
+    const yapa =
+      this.pedidoCombo.yapa === "D"
+        ? { nombre: "YAPA Donada", cantidad: 1, cantidadItem: 1, unidad: "u" }
+        : {
+            nombre: "YAPA " + this.pedidoCombo.yapa,
+            cantidad: 1,
+            cantidadItem: 1,
+            unidad: "u",
+          };
     pedidoCombos.push(yapa);
     let srvPedido = new ServicioPedidos();
-    console.log("pedido =>",this.pedidoCombo);
-    
+    console.log("pedido =>", this.pedidoCombo);
+
     srvPedido.registrarEscuchaPedidoCombo(
       this.pedidoCombo.id,
       pedidoCombos,
@@ -44,7 +52,7 @@ export class ListaItemsPedidoCombo extends Component {
   }
 
   repintarLista = (combos) => {
-   // console.log("ListaPedido", combos);
+    // console.log("ListaPedido", combos);
 
     this.setState({
       listaItemsPedidos: combos,
@@ -53,21 +61,25 @@ export class ListaItemsPedidoCombo extends Component {
 
   render() {
     return (
-      <View style={styles.columna}>
-        <View style={styles.cabeceraTitulo}>
-          <Icon
-            name="chevron-left"
-            size={30}
-            color={colores.colorBlanco}
-            style={styles.icon}
-            onPress={() => {
-              this.navigation.goBack();
-            }}
-          />
-          <Text style={styles.tituloCabecera}>Yappando</Text>
+      <View style={estiloGlobal.contenedorPagina}>
+        <View style={estiloGlobal.cabecera}>
+          <View style={estiloGlobal.tituloCabera}>
+            <Icon
+              name="chevron-left"
+              size={40}
+              color={colores.colorBlanco}
+              style={styles.icon}
+              onPress={() => {
+                this.navigation.goBack();
+              }}
+            />
+          </View>
+          <Text style={textEstilo(colores.colorBlancoTexto, 20, "bold")}>
+            Detalle de verificación
+          </Text>
         </View>
 
-        <View style={styles.pie}>
+        <View style={estiloGlobal.pie}>
           <View style={styles.titulo}>
             <Text style={styles.subtitulo}>Detalle del Pedido</Text>
             <View style={{ flexDirection: "row" }}>
@@ -75,7 +87,14 @@ export class ListaItemsPedidoCombo extends Component {
               <Text style={{}}>{this.pedidoCombo.orden.slice(-5)}</Text>
             </View>
           </View>
-          <View style={{ flex: 6 }}>
+          <View
+            style={{
+              flex: 6,
+              borderWidth: 1,
+              borderRadius: 5,
+              borderColor: colores.colorOscuroPrimarioAmarillo,
+            }}
+          >
             <FlatList
               data={this.state.listaItemsPedidos}
               renderItem={(objeto) => {
@@ -99,6 +118,13 @@ export class ListaItemsPedidoCombo extends Component {
   }
 }
 
+const textEstilo = (color, tamaño, tipo) => {
+  return {
+    color: color,
+    fontSize: tamaño,
+    fontWeight: tipo,
+  };
+};
 const flatListItemSeparator = () => {
   return (
     <View
@@ -172,12 +198,10 @@ const styles = StyleSheet.create({
   },
   titulo: {
     alignItems: "center",
-    flex: 1,
-    backgroundColor: colores.colorClaroPrimarioTomate,
-    borderTopLeftRadius: 20,
-    borderTopEndRadius: 20,
-    marginLeft: 10,
-    marginRight: 10,
+    backgroundColor: colores.colorPrimarioAmarilloRgba,
+    borderTopLeftRadius: 5,
+    borderTopEndRadius: 5,
+    paddingVertical: 10,
   },
   columna: {
     flex: 1,
