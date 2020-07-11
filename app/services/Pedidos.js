@@ -7,21 +7,23 @@ export const recuperarPedidosAsociado = (
   jornada
 ) => {
   const obtenerMes = new Date().getMonth() + 1;
-  let dia = new Date().getDate();
+  const obtenerDia = new Date().getDate();
+  let dia = obtenerDia < 10 ? "0" + obtenerDia : obtenerDia;
   let mes = obtenerMes < 10 ? "0" + obtenerMes : obtenerMes;
   let anio = new Date().getFullYear();
-  let fechaActual = "" + dia + "/" + mes + "/" + anio;
+  let fechaActual = "" + anio + "-"+ mes + "-" + dia ;
 
   console.log("Repartidor", global.usuario);
+  console.log("fecha actual",fechaActual);
   global.db
     .collection(coleccion)
     .where("estado", "in", ["AA", "PI", "CT"])
-    .where("fechaEntrega", "==", "2020-07-04")
+    .where("fechaEntrega", "==", fechaActual)
     .where("asociado", "==", global.usuario)
     .onSnapshot((snapShot) => {
       snapShot.docChanges().forEach((change) => {
         let data = change.doc.data();
-        console.log(data);
+        // console.log(data);
         let obj = {
           nombreCliente: data.nombreCliente,
           telefonoCliente: data.telefono,
