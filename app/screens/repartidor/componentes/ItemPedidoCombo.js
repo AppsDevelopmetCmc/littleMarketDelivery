@@ -11,7 +11,7 @@ export class ItemPedidoCombo extends Component {
     super(props);
     this.state = {
       checked: this.props.pedidoComboItem.recibido,
-      colorImportante: this.props.pedidoComboItem.nombre.includes("YAPA")
+      colorImportante: this.props.pedidoComboItem.id.includes("yapa")
         ? "red"
         : colores.colorOscuroTexto,
     };
@@ -59,7 +59,29 @@ export class ItemPedidoCombo extends Component {
             {this.props.pedidoComboItem.cantidad}
           </Text>
         </View>
-        {!this.props.pedidoComboItem.nombre.includes("YAPA") ? (
+        {this.props.pedidoComboItem.id.includes("yapa") ? (
+           <View style={{ flex: 1, alignItems: "flex-end" }}>
+           <Icon name="alert-circle" color="red" size={28} />
+            <View style={{ flex: 1, marginRight: 20 }}>
+           <CheckBox
+             checked={this.state.checked}
+             onPress={() => {
+               if (!this.state.checked) {
+                 this.actualizarRecibidoCombo(true);
+               } else {
+                 this.actualizarRecibidoCombo(false);
+               }
+
+               this.setState({ checked: !this.state.checked });
+             }}
+             checkedColor={colores.colorOscuroPrimarioTomate}
+             size={22}
+             uncheckedColor={colores.colorOscuroPrimario}
+           ></CheckBox>
+         </View>
+           
+         </View>
+        ) : (
           <View style={{ flex: 1, marginRight: 20 }}>
             <CheckBox
               checked={this.state.checked}
@@ -76,10 +98,6 @@ export class ItemPedidoCombo extends Component {
               size={22}
               uncheckedColor={colores.colorOscuroPrimario}
             ></CheckBox>
-          </View>
-        ) : (
-          <View style={{ flex: 1, alignItems: "flex-end" }}>
-            <Icon name="alert-circle" color="red" size={28} />
           </View>
         )}
       </View>
