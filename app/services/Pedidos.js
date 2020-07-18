@@ -13,8 +13,7 @@ export const recuperarPedidosAsociado = (
   let anio = new Date().getFullYear();
   let fechaActual = "" + anio + "-"+ mes + "-" + dia ;
 
-  console.log("Repartidor", global.usuario);
-  console.log("fecha actual",fechaActual);
+
   global.db
     .collection(coleccion)
     .where("estado", "in", ["AA", "PI", "CT"])
@@ -35,6 +34,7 @@ export const recuperarPedidosAsociado = (
             latitude: data.latitud,
             longitude: data.longitud,
           },
+          nombreAsociado: data.nombreAsociado
         };
         if (change.type == "added") {
           documentos.push(obj);
