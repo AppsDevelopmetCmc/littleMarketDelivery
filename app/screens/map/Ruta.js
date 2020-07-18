@@ -6,7 +6,8 @@ import {
   Alert,
   Text,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from "react-native";
 import { Icon } from "react-native-elements";
 import MapView, { PROVIDER_GOOGLE, Polyline } from "react-native-maps";
@@ -41,9 +42,6 @@ export class Ruta extends Component {
   }
 
   openAppMap = () => {
-    console.log(this.direccion.coordinates.latitude);
-    console.log(this.direccion.coordinates.longitude);
-    console.log(this.state.direccion.nombreCliente);
     const ruta =
       this.direccion.coordinates.latitude +
       "," +
@@ -190,23 +188,34 @@ export class Ruta extends Component {
           <Text>REFERENCIA: {this.state.direccion.referencia}</Text>
           <Text>CODIGO: {this.state.direccion.orden}</Text>
           <Text>NOMBRE CLIENTE: {this.state.direccion.nombreCliente}</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text>TELEFONO CLIENTE:</Text>
-            <TouchableOpacity
-              style={{ flexDirection: "row", color: "#3b83bd" }}
-              onPress={() => {
-                callNumber(this.state.direccion.telefonoCliente);
-              }}
-            >
-              <Text  style={{ color: "#3b83bd" }}> {this.state.direccion.telefonoCliente}</Text>
-
+          <Text>TELEFONO CLIENTE:</Text>
+          <View style={{ flexDirection: "row",margin:10  }}>
+          <Text  style={{ fontSize:20 }}> {this.state.direccion.telefonoCliente}</Text>  
               <Icon
                 name="phone-outgoing"
                 type="material-community"
                 color="#3b83bd"
-                size={28}
+                size={50}
+                onPress={() => {
+                  callNumber(this.state.direccion.telefonoCliente);
+                }}
+                style={{marginHorizontal:10 }}
               />
-            </TouchableOpacity>
+            <Icon
+                name="whatsapp"
+                type="material-community"
+                color="#3b83bd"
+                size={50}
+                onPress = {() => {
+                  console.log(this.state.direccion);
+                  const text = 'Hola soy '+ this.state.direccion.nombreAsociado+', su repartidor de Yappando le informamos que su pedido se encuentra en camino.'
+                  let numero = '593'+this.state.direccion.telefonoCliente;
+                  Linking.openURL(
+                     'https://wa.me/' + numero + '?text=' + text
+                  );
+                }}
+                style={{marginHorizontal:10 }}
+              />
           </View>
 
           <Button title={"Navegar"} onPress={this.openAppMap}></Button>
