@@ -9,19 +9,25 @@ export class ItemResumenPedido extends Component {
 
   render() {
     return (
+      <View >
+        {this.props.paquetes.id != "observacion" ? (
       <View style={styles.container}>
         <View style={styles.columna1}>
-          <Text>{this.props.combos.cantidadItem}</Text>
+              <Text>{this.props.paquetes.descripcion}</Text>
         </View>
         <View style={styles.columna2}>
-          <Text> {this.props.combos.unidad}</Text>
+              <Text> {this.props.paquetes.cantidad}</Text>
+            </View></View>) : (
+            <View style={styles.container}>
+              <View style={styles.columna1}>
+              <Text>{this.props.paquetes.descripcion}</Text>
         </View>
-        <View style={styles.columna3}>
-          <Text> {this.props.combos.nombre}</Text>
-        </View>
-        <View style={styles.columna4}>
-          <Text> {this.props.combos.cantidad}</Text>
-        </View>
+              <View style={styles.columna2}>
+                <Text> {this.props.paquetes.detalle}</Text>
+              </View></View>)
+
+        }
+
       </View>
     );
   }

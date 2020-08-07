@@ -160,7 +160,7 @@ export class ServicioPedidos {
     global.db
       .collection("pedidos")
       .doc(idPedido)
-      .collection("combos")
+      .collection("combos").orderBy("posicionEmpacado", "asc")
       .onSnapshot(function (snapShot) {
         snapShot.docChanges().forEach(function (change) {
           let pedidoItems = change.doc.data();
@@ -177,6 +177,50 @@ export class ServicioPedidos {
         });
       });
   };
+
+  obtenenerPaquetes = (idPedido, arreglo, fnPintar) => {
+    let arregloUtil = new ArregloUtil(arreglo);
+    global.db
+      .collection("paquetes").orderBy("editable", "asc")
+      .onSnapshot(function (snapShot) {
+        snapShot.docChanges().forEach(function (change) {
+          let paquetesItems = change.doc.data();
+          paquetesItems.id = change.doc.id;
+          if (change.type == "added") {
+            arregloUtil.agregar(paquetesItems, fnPintar);
+          }
+          if (change.type == "modified") {
+            arregloUtil.actualizar(paquetesItems, fnPintar);
+          }
+          if (change.type == "removed") {
+            arregloUtil.eliminar(paquetesItems, fnPintar);
+          }
+        });
+      });
+  }
+
+  guardarPaquetes = (idPedido, array, observacion) => {
+    var success = true;
+   console.log("*****ARRAY*****" + JSON.stringify(array));
+    array[array.length]={id:"observacion", detalle: observacion, descripcion:"Observacion"};
+    console.log("*****ARRAY*****" + JSON.stringify(array));
+    for (var i = 0; i < array.length; i++) {
+    global.db
+      .collection("pedidos")
+      .doc(idPedido)
+      .collection("paquetes")
+      .doc(array[i].id)
+      .set(array[i]).then(() => {
+        console.log("*****CAMBIO CORRECTO****");
+      }).catch(error => {
+         success = false;
+        console.log("******ERROR******" + error);
+      })
+    }
+    if(success){
+      Alert.alert('', 'Guardado Correctamente');
+    }
+  }
 
   actualizarRecibidoPC = (idPedido, objeto) => {
     console.log(idPedido);
