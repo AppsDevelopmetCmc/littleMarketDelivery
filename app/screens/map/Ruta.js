@@ -221,7 +221,7 @@ export class Ruta extends Component {
           <Button title={"Navegar"} onPress={this.openAppMap}></Button>
           <View style={{ marginBottom: 10 }}></View>
           <Button
-            title="TERMINAR PEDIDO"
+            title="ENTREGAR PEDIDO"
             onPress={() => {
               navigation.navigate("ResumenPedido", {
                 direccion: this.state.direccion,

@@ -23,12 +23,12 @@ export class ResumenPedido extends Component {
     this.direccion = this.props.route.params.direccion;
     this.state = {
       detalle: {},
-      combos: [],
+      paquetes: [],
     };
     coleccionDeColeccion(
       "pedidos",
       this.direccion.key,
-      "combos",
+      "paquetes",
       this.pintarDetalle
     );
     recuperarDocumento("pedidos", this.direccion.key, this.repintarCabecera);
@@ -38,8 +38,8 @@ export class ResumenPedido extends Component {
     this.setState({ detalle: datosPedido });
   };
 
-  pintarDetalle = (combos) => {
-    this.setState({ combos: combos });
+  pintarDetalle = (paquetes) => {
+    this.setState({ paquetes: paquetes });
   };
 
   finalizarCobro = () => {};
@@ -55,55 +55,26 @@ export class ResumenPedido extends Component {
           <Text style={{ fontSize: 15, fontWeight: "bold" }}>
             Método de Pago: {this.state.detalle.formaPago}
           </Text>
+          <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            TOTAL: ${this.state.detalle.total - this.state.detalle.descuento}</Text>
         </View>
-        <View style={[styles.container, { marginTop: 15 }]}>
+        <View style={[styles.container, { marginVertical:15 }]}>
           <Text style={{ fontWeight: "bold" }}>DETALLE DEL PEDIDO</Text>
         </View>
-
-        <View style={styles.fila}>
-          <View style={styles.columna1}>
-            <Text> Cantidad </Text>
-          </View>
-          <View style={styles.columna2}>
-            <Text> Unidades </Text>
-          </View>
-          <View style={styles.columna3}>
-            <Text> Nombre</Text>
-          </View>
-          <View style={styles.columna4}>
-            <Text> Paquetes</Text>
-          </View>
-        </View>
-
         <View>
           <FlatList
-            data={this.state.combos}
+            data={this.state.paquetes}
             renderItem={(obj) => {
-              return <ItemResumenPedido combos={obj.item}></ItemResumenPedido>;
+              return <ItemResumenPedido paquetes={obj.item}></ItemResumenPedido>;
             }}
-            keyExtractor={(combos) => {
-              return combos.id;
+            keyExtractor={(paquetes) => {
+              return paquetes.id;
             }}
           ></FlatList>
         </View>
-
-        <View style={styles.fila}>
-          <View style={styles.columna1}>
-            <Text> </Text>
-          </View>
-          <View style={styles.columna2}>
-            <Text> </Text>
-          </View>
-          <View style={styles.columna3}>
-            <Text style={{ fontWeight: "bold", fontSize: 15 }}>Total</Text>
-          </View>
-          <View style={styles.columna4}>
-            <Text> ${this.state.detalle.total}</Text>
-          </View>
-        </View>
         <View>
           <Button
-            title="Confirmar Entrega"
+            title="FINALIZAR ENTREGA"
             onPress={() => {
               modificarDocumento("pedidos", this.direccion.key, {
                 estado: "PE",

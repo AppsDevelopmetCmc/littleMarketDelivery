@@ -31,7 +31,7 @@ export const coleccionDeColeccion = (
   global.db
     .collection(coleccion)
     .doc(idDoc)
-    .collection(subColeccion)
+    .collection(subColeccion).orderBy("descripcion", "asc")
     .onSnapshot((snapShot) => {
       snapShot.docChanges().forEach((change) => {
         if (change.type == "added") {

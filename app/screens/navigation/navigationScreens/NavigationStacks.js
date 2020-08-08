@@ -10,6 +10,7 @@ import IniciaSesion from "../../account/IniciarSesion";
 import RecuperarCuenta from "../../account/RecuperarCuenta";
 import { navOptionHandler } from "../../../utils/Validaciones";
 import { ListaItemsPedidoCombo } from "../../repartidor/ListaItemsPedidoCombo";
+import { ListaPaquetesPedido } from "../../repartidor/ListaPaquetesPedido";
 import { ListaPedidoCombo } from "../../repartidor/ListaPedidoCombo";
 import * as colores from "../../../constants/Colores";
 
@@ -78,6 +79,11 @@ export function RepartidorStackScreen() {
       <StackRepartidor.Screen
         name="ListaItemsPedidoComboScreen"
         component={ListaItemsPedidoCombo}
+        options={navOptionHandler(false)}
+      />
+      <StackRepartidor.Screen
+        name="ListaPaquetesPedidoScreen"
+        component={ListaPaquetesPedido}
         options={navOptionHandler(false)}
       />
     </StackRepartidor.Navigator>
