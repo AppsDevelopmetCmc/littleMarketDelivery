@@ -31,7 +31,7 @@ export class ListaPaquetesPedido extends Component {
             checked: false,
             cantidad: 0,
             listaPaquetesPedido: lista,
-            observacion:""
+            observacion:"",
         };
     }
 
@@ -59,16 +59,6 @@ export class ListaPaquetesPedido extends Component {
                 //huevos
                 console.log("*****HUEVOS******" + this.combos[i].cantidad);
                 this.cubetas = this.combos[i].cantidad;
-            } else if (this.combos[i].id == '7KwZRAmbpTr2wQC152QP') {
-                //papa chola gruesa
-                this.papaGruesa = this.combos[i].cantidad;
-
-            } else if (this.combos[i].id == 'tej6Jla2vXcS8SBwQbsf') {
-                //naranja nacional
-                this.naranja = this.combos[i].cantidad;
-            } else if (this.combos[i].id == '5SlBQhGPda2NNQeqMqiG') {
-                //papa chola mediana
-                this.papaMediana = this.combos[i].cantidad;
             }
         }
     }
@@ -81,21 +71,27 @@ export class ListaPaquetesPedido extends Component {
         for (var j = 0; j < this.state.listaPaquetesPedido.length; j++) {
             if (this.state.listaPaquetesPedido[j].id == "cubetas") {
                 this.state.listaPaquetesPedido[j].cantidad = this.cubetas;
-            } else if (this.state.listaPaquetesPedido[j].id == "papasGruesas") {
-                this.state.listaPaquetesPedido[j].cantidad = this.papaGruesa;
-            } else if (this.state.listaPaquetesPedido[j].id == "papasMedianas") {
-                this.state.listaPaquetesPedido[j].cantidad = this.papaMediana;
-            } else if (this.state.listaPaquetesPedido[j].id == "naranjas") {
-                this.state.listaPaquetesPedido[j].cantidad = this.naranja;
             }
         }
         console.log("*****LISTA COMPLETA*****" + JSON.stringify(this.state.listaPaquetesPedido))
         return (
             <SafeAreaView>
-                <View style={[styles.container, { marginVertical: 15, alignItems: "center" }]}>
-                    <Text style={{ fontWeight: "bold" }}>LISTADO DE PAQUETES</Text>
+                    <View style={estiloGlobal.cabecera}>
+                    <View style={estiloGlobal.tituloCabera}>
+                        <Icon
+                            name="chevron-left"
+                            size={40}
+                            color={colores.colorBlanco}
+                            style={styles.icon}
+                            onPress={() => {
+                                this.props.navigation.goBack();
+                            }}
+                        />
+                    </View>
+                    <Text style={textEstilo(colores.colorBlancoTexto, 20, "bold")}>
+                        Detalle de Paquetes
+                     </Text>
                 </View>
-
 
                 <View style={[styles.fila, { marginTop: 15 }]}>
                     <View style={styles.columna1}>
@@ -133,22 +129,16 @@ export class ListaPaquetesPedido extends Component {
                         numberOfLines={10}
                         value={this.state.observacion}
                         onChangeText={text => {
-                            this.setState({observacion:text})
-                         }}
+                            this.setState({ observacion: text })
+                        }}
                     ></TextInput >
                 </View>
 
                 <Button
                     title="Guardar"
                     onPress={() => {
-                       /* var paquetes = {}
-                        for(var i = 0; i < this.state.listaPaquetesPedido.length; i++){
-                            paquetes [this.state.listaPaquetesPedido[i].id]= this.state.listaPaquetesPedido[i];
-                          }
-                          paquetes ["observacion"] ={detalle: this.state.observacion, id: "observacion"};
-                        console.log("****LISTAMODIFICADA*****" + JSON.stringify(paquetes));*/
                         let srvPedido = new ServicioPedidos();
-                        srvPedido.guardarPaquetes( this.idPedido, this.state.listaPaquetesPedido, this.state.observacion);
+                        srvPedido.guardarPaquetes(this.idPedido, this.state.listaPaquetesPedido, this.state.observacion);
                     }}></Button>
             </SafeAreaView>
         );
@@ -156,6 +146,14 @@ export class ListaPaquetesPedido extends Component {
 }
 
 const borderLinea = 15;
+
+const textEstilo = (color, tamaño, tipo) => {
+    return {
+      color: color,
+      fontSize: tamaño,
+      fontWeight: tipo,
+    };
+  };
 
 const styles = StyleSheet.create({
     container: {

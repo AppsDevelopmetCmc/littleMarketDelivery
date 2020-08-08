@@ -56,7 +56,7 @@ export class ResumenPedido extends Component {
             Método de Pago: {this.state.detalle.formaPago}
           </Text>
           <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-            TOTAL: ${this.state.detalle.total - this.state.detalle.descuento}</Text>
+            TOTAL: ${(this.state.detalle.total - this.state.detalle.descuento).toFixed(2)}</Text>
         </View>
         <View style={[styles.container, { marginVertical:15 }]}>
           <Text style={{ fontWeight: "bold" }}>DETALLE DEL PEDIDO</Text>

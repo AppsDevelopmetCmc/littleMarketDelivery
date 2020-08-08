@@ -106,7 +106,7 @@ export class ListaItemsPedidoCombo extends Component {
         </View>
         <View>
           <Button
-            title="Observaciones"
+            title="Añadir Observaciones"
             onPress={() => {
               this.props.navigation.navigate('ListaPaquetesPedidoScreen', { idPedido :  this.pedidoCombo.id, listaCombos: this.state.listaItemsPedidos })
             }}></Button>
