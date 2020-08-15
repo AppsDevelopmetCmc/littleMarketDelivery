@@ -17,7 +17,7 @@ if (!global.atob) {
 }
 
 export const cargarConfiguracion = () => {
-  const firebaseConfig = obtenerConfiguracionPROD();
+  const firebaseConfig = obtenerConfiguracionDEV();
   firebaseApp = firebase.initializeApp(firebaseConfig);
   global.db = firebase.firestore();
   global.firebaseRegistrado = true;
