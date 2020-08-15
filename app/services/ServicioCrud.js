@@ -26,12 +26,13 @@ export const coleccionDeColeccion = (
   subColeccion,
   fnRepintar
 ) => {
+  console.log("---DATA---" + coleccion + idDoc + subColeccion )
   let productos = [];
 
   global.db
     .collection(coleccion)
     .doc(idDoc)
-    .collection(subColeccion).orderBy("descripcion", "asc")
+    .collection(subColeccion)
     .onSnapshot((snapShot) => {
       snapShot.docChanges().forEach((change) => {
         if (change.type == "added") {
@@ -48,6 +49,7 @@ export const coleccionDeColeccion = (
         }
       });
     });
+   
 };
 
 export const modificarColeccion = (
@@ -90,91 +92,3 @@ export const modificarDocumento = (coleccion, idDoc, datos) => {
     Alert.alert("error try");
   }
 };
-
-/*export const recuperarColeccion = (coleccion, documentos, fnRepintar) => {
-  global.db.collection(coleccion).onSnapshot((snapShot) => {
-    snapShot.docChanges().forEach((change) => {
-      if (change.type == "added") {
-        documentos.push(change.doc.data());
-        fnRepintar(documentos);
-      }
-      if (change.type == "modified") {
-        documentos[change.newIndex] = change.doc.data();
-        fnRepintar(documentos);
-      }
-      if (change.type == "removed") {
-        documentos.splice(change.oldIndex, 1);
-        fnRepintar(documentos);
-      }
-    });
-  });
-};
-
-export const getPedidosById = (coleccion, idAsociado, fnRepintar) => {
-  let documentos = [];
-  let pedidos = {};
-  var fechaLimite = new Date();
-  fechaLimite = fechaLimite.setDate(fechaLimite.getDate() + 5);
-
-  global.db.collection(coleccion).onSnapshot((snapShot) => {
-    snapShot.docChanges().forEach((change) => {
-      if (change.type == "added") {
-        var fechaEntrega = change.doc.data().fechaEntrega.split("/");
-        var fecha = new Date(
-          fechaEntrega[2],
-          fechaEntrega[1] - 1,
-          fechaEntrega[0]
-        ).getTime();
-        if (
-          change.doc.data().asociado == idAsociado &&
-          change.doc.data().estado == "p" &&
-          fecha <= fechaLimite
-        ) {
-          pedidos = change.doc.data();
-          pedidos.id = change.doc.id;
-          documentos.push(pedidos);
-        }
-        fnRepintar(documentos);
-      }
-      if (change.type == "modified") {
-        let pedido = change.doc.data();
-        pedido.id = change.doc.id;
-        documentos[change.newIndex] = pedido;
-        fnRepintar(documentos);
-      }
-      if (change.type == "removed") {
-        documentos.splice(change.oldIndex, 1);
-        fnRepintar(documentos);
-      }
-    });
-  });
-};*/
-
-/*export const crear = (coleccion, nuevoObj) => {
-  let promesa = global.db.collection(coleccion).doc(nuevoObj.id).set(nuevoObj);
-
-  try {
-    promesa
-      .then(() => {})
-      .catch((error) => {
-        console.log("error1" + error);
-      });
-  } catch (error) {
-    console.log("error2" + error);
-  }
-};
-
-export const eliminar = (coleccion, idDoc) => {
-  let promesa = global.db.collection(coleccion).doc(idDoc).delete();
-  try {
-    promesa
-      .then(() => {
-        Alert.alert("eliminado");
-      })
-      .catch((error) => {
-        console.log("error1" + error);
-      });
-  } catch (error) {
-    console.log("error2" + error);
-  }
-};*/

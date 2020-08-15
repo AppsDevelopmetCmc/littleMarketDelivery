@@ -12,6 +12,7 @@ import {
     coleccionDeColeccion,
     modificarDocumento,
 } from "../../services/ServicioCrud";
+import { ItemProductosPedido } from "./ItemProductosPedido";
 
 export class DetalleProductosPedido extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ export class DetalleProductosPedido extends Component {
             "pedidos",
             this.direccion.key,
             "combos",
-            this.pintarDetalle
+            this.pintarDetalleProd
         );
         recuperarDocumento("pedidos", this.direccion.key, this.repintarCabecera);
     }
@@ -35,7 +36,7 @@ export class DetalleProductosPedido extends Component {
         this.setState({ detalle: datosPedido });
     };
 
-    pintarDetalle = (productos) => {
+    pintarDetalleProd= (productos) => {
         this.setState({ productos: productos });
     };
 
@@ -62,16 +63,17 @@ export class DetalleProductosPedido extends Component {
                     </View>
                 </View>
                 <View>
-                    <FlatList
-                        data={this.state.productos}
-                        renderItem={(obj) => {
-                            return <ItemProductosPedido productos={obj.item}></ItemProductosPedido>;
-                        }}
-                        keyExtractor={(productos) => {
-                            return productos.id;
-                        }}
-                    ></FlatList>
+                <FlatList
+            data={this.state.productos}
+            renderItem={(obj) => {
+              return <ItemProductosPedido productos={obj.item}></ItemProductosPedido>
+            }}
+            keyExtractor={(productos) => {
+              return productos.id;
+            }}
+          ></FlatList>
                 </View>
+          
             </ScrollView>
         );
     }
