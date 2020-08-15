@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Mapa } from "../../map/Mapa";
 import { Ruta } from "../../map/Ruta";
 import { ResumenPedido } from "../../pedidos/ResumenPedido";
+import { DetalleProductosPedido } from "../../pedidos/DetalleProductosPedido";
 import { navOptionHandler } from "../../../utils/Validaciones";
 
 import { HomeTab } from "./NavigationTabBottom";
@@ -24,6 +25,7 @@ export function ScreensFromTabs() {
       <StackDirection.Screen name="Mapa" component={Mapa} />
       <StackDirection.Screen name="Ruta" component={Ruta} />
       <StackDirection.Screen name="ResumenPedido" component={ResumenPedido} />
+      <StackDirection.Screen name="DetalleProductosPedido" component={DetalleProductosPedido} />
     </StackFromTabs.Navigator>
   );
 }

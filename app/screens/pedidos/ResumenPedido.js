@@ -7,6 +7,7 @@ import {
   Button,
   SafeAreaView,
   ScrollView,
+  Alert
 } from "react-native";
 
 import {
@@ -42,7 +43,7 @@ export class ResumenPedido extends Component {
     this.setState({ paquetes: paquetes });
   };
 
-  finalizarCobro = () => {};
+  finalizarCobro = () => { };
 
   render() {
     const { navigation } = this.props;
@@ -58,7 +59,7 @@ export class ResumenPedido extends Component {
           <Text style={{ fontSize: 15, fontWeight: "bold" }}>
             TOTAL: ${(this.state.detalle.total - this.state.detalle.descuento).toFixed(2)}</Text>
         </View>
-        <View style={[styles.container, { marginVertical:15 }]}>
+        <View style={[styles.container, { marginVertical: 15 }]}>
           <Text style={{ fontWeight: "bold" }}>DETALLE DEL PEDIDO</Text>
         </View>
         <View>
@@ -72,10 +73,36 @@ export class ResumenPedido extends Component {
             }}
           ></FlatList>
         </View>
-        <View>
+
+        <View style={styles.fila}>
+          <View style={styles.columna1}>
+            <Text> </Text>
+          </View>
+          <View style={styles.columna2}>
+            <Text> </Text>
+          </View>
+          <View style={styles.columna3}>
+            <Text ></Text>
+          </View>
+          <View style={styles.columna4}>
+            <Button
+              title="Ver más..."
+              onPress={() => {
+                navigation.navigate("DetalleProductosPedido", {
+                  direccion: this.direccion,
+                  jornada: this.jornada,
+                });
+              }}
+            ></Button>
+          </View>
+        </View>
+
+        <View style={{ marginVertical:50}}>
+
           <Button
             title="FINALIZAR ENTREGA"
             onPress={() => {
+              this.state.detalle.formaPago == 'EFECTIVO' ? Alert.alert('FINALIZADO', 'COBRA EN EFECTIVO: $' + (this.state.detalle.total - this.state.detalle.descuento).toFixed(2)) : Alert.alert('FINALIZADO', 'Pedido Entregado');
               modificarDocumento("pedidos", this.direccion.key, {
                 estado: "PE",
               });
@@ -97,8 +124,8 @@ const styles = StyleSheet.create({
   },
   fila: {
     flexDirection: "row",
-    borderColor: "#20232a",
-    borderBottomWidth: 1,
+   // borderColor: "white",
+   // borderBottomWidth: 1,
     color: "#20232a",
     //backgroundColor: "#FF5733",
     marginLeft: 10,
